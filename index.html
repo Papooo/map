@@ -46,6 +46,19 @@
                 text-align: left;
                 width: 340px;
             }
+            #pano {
+              width: 200px;
+              height: 200px;
+            }
+            .text {
+              font-size: 12px;
+            }
+            #toggle-drawing {
+              width: 27%;
+              position: relative;
+              margin-left: 10px;
+            }
+
         </style>
         <script src="js/app.js"></script>
 
@@ -57,6 +70,9 @@
                 <div class="">
                     <input id="show-listings" type="button" name="" value="Show Listings">
                     <input id="hide-listings" type="button" name="" value="Hide Listings">
+                    <hr>
+                    <span class="text">Draw a shape for search area</span>
+                    <input id="toggle-drawing" type="button" name="" value="Drawing Tools">
                 </div>
             </div>
         </div>
@@ -65,22 +81,50 @@
         <script>
             var map;
             var markers = [];
+            var polygon = null;
 
             function initMap() {
+                var styles = [
+                    {
+                        "featureType": "road",
+                        "elementType": "labels",
+                        "stylers": [ { "saturation": -100 } ]
+                    },
+                    {
+                        "featureType": "water",
+                        // "elementType": "labels",
+                        "stylers": [ { "color": "#FFFFFF" } ]
+                    },
 
+                ];
                 var sn = {lat: 54.678296, lng: 25.314064};
                 var locations = [
-                        {title: 'pirmas', location: {lat: 54.678296, lng: 25.314064}},
-                        {title: 'antras', location: {lat: 54.677416, lng: 25.312656}},
-                        {title: 'trecias', location: {lat: 34.678296, lng: 25.314064}},
-                        {title: 'ketvirtas', location: {lat: 24.678296, lng: 25.314064}},
-                        {title: 'penktas', location: {lat: 14.678296, lng: 25.314064}}
+                        {title: 'pirmas', location: {lat: 54.678296, lng: 25.414061}},
+                        {title: 'antras', location: {lat: 54.666666, lng: 25.312956}},
+                        {title: 'trecias', location: {lat: 54.653288, lng: 25.314094}},
+                        {title: 'ketvirtas', location: {lat: 54.653288, lng: 25.394064}},
+                        {title: 'penktas', location: {lat: 54.653288, lng: 25.222718}}
                     ];
                 var largeInfoWindow = new google.maps.InfoWindow();
+                var myMarker = makeMarkerIcon('c0c0c0');
+                var voMarker = makeMarkerIcon('587469');
+
+                var drawingManager = new google.maps.drawing.DrawingManager({
+                    drawingMode: google.maps.drawing.OverlayType.POLYGON,
+                    drawingControl: true,
+                    drawingControlOptions: {
+                        position: google.maps.ControlPosition.TOP_LEFT,
+                        drawingModes: [
+                            google.maps.drawing.OverlayType.POLYGON
+                        ]
+                    }
+                });
 
                 map = new google.maps.Map(document.getElementById('map'), {
                     center: {lat: 54.678296, lng: 25.314064},
-                    zoom: 15
+                    zoom: 15,
+                    styles: styles,
+                    mapTypeControl: true
                 });
 
                 for (var i = 0; i < locations.length; i++) {
@@ -92,7 +136,8 @@
                             position: position,
                             title: title,
                             id: i,
-                            animation: google.maps.Animation.BOUNCE
+                            icon: myMarker,
+                            animation: google.maps.Animation.DROP
                     });
 
                     markers.push(marker);
@@ -100,15 +145,78 @@
                     marker.addListener('click', function(){
                         populateInfoWindow(this, largeInfoWindow);
                     });
+
+                    marker.addListener('mouseover', function() {
+                        this.setIcon(voMarker);
+                    });
+
+                    marker.addListener('mouseout', function() {
+                        this.setIcon(myMarker);
+                    });
                 }
 
                 document.getElementById('show-listings').addEventListener('click', showListings);
                 document.getElementById('hide-listings').addEventListener('click', hideListings);
-
-                function hideListings() {
-                    for (var i = 0; i < markers.length; i++) {
-                        markers[i].setMap(null);
+                document.getElementById('toggle-drawing').addEventListener('click', function() {
+                    toggleDrawing(drawingManager);
+                });
+                drawingManager.addListener('overlaycomplete', function(event) {
+                    if (polygon) {
+                        polygon.setMap(null);
+                        hideListings();
                     }
+                    drawingManager.setDrawingMode(null);
+                    polygon = event.overlay;
+                    polygon.setEditable(true);
+                    searchWithinPolygon();
+                    polygon.getPath().addListener('set_at', searchWithinPolygon);
+                    polygon.getPath().addListener('insert_at', searchWithinPolygon);
+                    var area = google.maps.geometry.spherical.computeArea(polygon.getPath());
+                    console.log('plotas ' + area + 'm2');
+
+                });
+
+                function populateInfoWindow(marker, infowindow) {
+                  // Check to make sure the infowindow is not already opened on this marker.
+                  if (infowindow.marker != marker) {
+                    // Clear the infowindow content to give the streetview time to load.
+                    infowindow.setContent('');
+                    infowindow.marker = marker;
+                    // Make sure the marker property is cleared if the infowindow is closed.
+                    infowindow.addListener('closeclick', function() {
+                      infowindow.marker = null;
+                    });
+                    var streetViewService = new google.maps.StreetViewService();
+                    var radius = 50;
+                    // In case the status is OK, which means the pano was found, compute the
+                    // position of the streetview image, then calculate the heading, then get a
+                    // panorama from that and set the options
+                    function getStreetView(data, status) {
+                      if (status == google.maps.StreetViewStatus.OK) {
+                        var nearStreetViewLocation = data.location.latLng;
+                        var heading = google.maps.geometry.spherical.computeHeading(
+                          nearStreetViewLocation, marker.position);
+                          infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+                          var panoramaOptions = {
+                            position: nearStreetViewLocation,
+                            pov: {
+                              heading: heading,
+                              pitch: 30
+                            }
+                          };
+                        var panorama = new google.maps.StreetViewPanorama(
+                          document.getElementById('pano'), panoramaOptions);
+                      } else {
+                        infowindow.setContent('<div>' + marker.title + '</div>' +
+                          '<div>No Street View Found</div>');
+                      }
+                    }
+                    // Use streetview service to get the closest streetview image within
+                    // 50 meters of the markers position
+                    streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+                    // Open the infowindow on the correct marker.
+                    infowindow.open(map, marker);
+                  }
                 }
 
                 function showListings() {
@@ -120,15 +228,25 @@
                     map.fitBounds(bounds);
                 }
 
-                function populateInfoWindow(marker, infoWindow) {
-                    if (infoWindow.marker != marker) {
-                        infoWindow.marker = marker;
-                        infoWindow.setContent('<div>' + marker.title + '</div>');
-                        infoWindow.open(map, marker);
-                        infoWindow.addListener('closeclick', function() {
-                            infoWindow.setMarker(null);
-                        });
+                function hideListings() {
+                    for (var i = 0; i < markers.length; i++) {
+                        markers[i].setMap(null);
                     }
+                }
+
+                // This function takes in a COLOR, and then creates a new marker
+                // icon of that color. The icon will be 21 px wide by 34 high, have an origin
+                // of 0, 0 and be anchored at 10, 34).
+                function makeMarkerIcon(markerColor) {
+                    var markerImage = new google.maps.MarkerImage(
+                        'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+                        '|40|_|%E2%80%A2',
+                        new google.maps.Size(21, 34),
+                        new google.maps.Point(0, 0),
+                        new google.maps.Point(10, 34),
+                        new google.maps.Size(21,34));
+
+                    return markerImage;
                 }
 
                 var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
@@ -161,8 +279,39 @@
                 // marker.setMap(null);
 
             }
+            function toggleDrawing(drawingManager) {
+                if (drawingManager.map) {
+                    drawingManager.setMap(null);
+                    if (polygon !== null) {
+                        polygon.setMap(null);
+                    }
+                } else {
+                    drawingManager.setMap(map);
+                }
+            }
+
+            // function searchWithinPolygon() {
+            //     for (var i = 0; i < markers.length; i++) {
+            //         if (google.maps.geometry.poly.containsLocation(markers.[i].position, polygon)) {
+            //             markers[i].setMap(map);
+            //         } else {
+            //             markers[i].setMap(null);
+            //         }
+            //     }
+            // }
+            //
+            function searchWithinPolygon() {
+              for (var i = 0; i < markers.length; i++) {
+                if (google.maps.geometry.poly.containsLocation(markers[i].position, polygon)) {
+                  markers[i].setMap(map);
+                } else {
+                  markers[i].setMap(null);
+                }
+              }
+            }
+
         </script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAi-ZIKWRA1xBrdtjWepic1KSQhntDTRhM&callback=initMap"
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAi-ZIKWRA1xBrdtjWepic1KSQhntDTRhM&callback=initMap&libraries=geometry,drawing"
         async defer></script>
     </body>
 </html>
