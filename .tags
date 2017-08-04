@@ -21,3 +21,5 @@ showListings	.\index2.html	/^      function showListings() {$/;"	f
 toggleDrawing	.\index.html	/^            function toggleDrawing(drawingManager) {$/;"	f
 toggleDrawing	.\index2.html	/^      function toggleDrawing(drawingManager) {$/;"	f
 width	.\js\app.js	/^var width = window.innerWidth,$/;"	v
+zoomToArea	.\index.html	/^            function zoomToArea() {$/;"	f
+zoomToArea	.\index2.html	/^      function zoomToArea() {$/;"	f

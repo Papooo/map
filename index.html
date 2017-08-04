@@ -58,6 +58,13 @@
               position: relative;
               margin-left: 10px;
             }
+            #zoom-to-area-text {
+              position: relative;
+              width: 70%;
+            }
+            #zoom-to-area {
+              width: 24%;
+            }
 
         </style>
         <script src="js/app.js"></script>
@@ -73,6 +80,11 @@
                     <hr>
                     <span class="text">Draw a shape for search area</span>
                     <input id="toggle-drawing" type="button" name="" value="Drawing Tools">
+                </div>
+                <hr>
+                <div class="">
+                    <input id="zoom-to-area-text" type="text" name="" value="Riovonys" placeholder="Enter your area">
+                    <input id="zoom-to-area" type="button" name="" value="Zoom">
                 </div>
             </div>
         </div>
@@ -159,6 +171,9 @@
                 document.getElementById('hide-listings').addEventListener('click', hideListings);
                 document.getElementById('toggle-drawing').addEventListener('click', function() {
                     toggleDrawing(drawingManager);
+                });
+                document.getElementById('zoom-to-area').addEventListener('click', function() {
+                    zoomToArea();
                 });
                 drawingManager.addListener('overlaycomplete', function(event) {
                     if (polygon) {
@@ -308,6 +323,32 @@
                   markers[i].setMap(null);
                 }
               }
+            }
+
+            function zoomToArea() {
+                var address = document.getElementById('zoom-to-area-text').value;
+                var geocoder =  new google.maps.Geocoder();
+
+                if (address == '') {
+                    window.aler('Please enter address');
+                } else {
+                    geocoder.geocode(
+                        {
+                            address: address,
+                            componentRestrictions: {locality: 'Vilnius'}
+                        },
+                        function (results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                map.setCenter(results[0].geometry.location);
+                                map.setZoom(15);
+                                window.alert(results[0]);
+                            } else {
+                                window.alert('Ups, not found');
+                            }
+                        }
+                    );
+                }
+
             }
 
         </script>
