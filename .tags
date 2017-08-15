@@ -4,24 +4,33 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+createMarkersForPlaces	.\index.html	/^            function createMarkersForPlaces(places) {$/;"	f
+createMarkersForPlaces	.\index2.html	/^      function createMarkersForPlaces(places) {$/;"	f
+displayDirections	.\index.html	/^            function displayDirections(origin) {$/;"	f
+displayDirections	.\index2.html	/^      function displayDirections(origin) {$/;"	f
 displayMarkersWithinTime	.\index.html	/^            function displayMarkersWithinTime(response) {$/;"	f
 displayMarkersWithinTime	.\index2.html	/^      function displayMarkersWithinTime(response) {$/;"	f
+getPlacesDetails	.\index.html	/^            function getPlacesDetails(marker, infowindow) {$/;"	f
 getStreetView	.\index.html	/^                function getStreetView(data, status) {$/;"	f
 getStreetView	.\index2.html	/^          function getStreetView(data, status) {$/;"	f
-hideListings	.\index.html	/^            function hideListings() {$/;"	f
-hideListings	.\index2.html	/^      function hideListings() {$/;"	f
+hideMarkers	.\index.html	/^            function hideMarkers(markers) {$/;"	f
+hideMarkers	.\index2.html	/^      function hideMarkers(markers) {$/;"	f
 initMap	.\index.html	/^            function initMap() {$/;"	f
 initMap	.\index2.html	/^      function initMap() {$/;"	f
 makeMarkerIcon	.\index.html	/^                function makeMarkerIcon(markerColor) {$/;"	f
 makeMarkerIcon	.\index2.html	/^      function makeMarkerIcon(markerColor) {$/;"	f
 populateInfoWindow	.\index.html	/^            function populateInfoWindow(marker, infowindow) {$/;"	f
 populateInfoWindow	.\index2.html	/^      function populateInfoWindow(marker, infowindow) {$/;"	f
+searchBoxPlaces	.\index.html	/^            function searchBoxPlaces(searchBox) {$/;"	f
+searchBoxPlaces	.\index2.html	/^      function searchBoxPlaces(searchBox) {$/;"	f
 searchWithinPolygon	.\index.html	/^            function searchWithinPolygon() {$/;"	f
 searchWithinPolygon	.\index2.html	/^      function searchWithinPolygon() {$/;"	f
 searchWithinTime	.\index.html	/^            function searchWithinTime() {$/;"	f
 searchWithinTime	.\index2.html	/^      function searchWithinTime() {$/;"	f
 showListings	.\index.html	/^            function showListings() {$/;"	f
 showListings	.\index2.html	/^      function showListings() {$/;"	f
+textSearchPlaces	.\index.html	/^            function textSearchPlaces() {$/;"	f
+textSearchPlaces	.\index2.html	/^      function textSearchPlaces() {$/;"	f
 toggleDrawing	.\index.html	/^            function toggleDrawing(drawingManager) {$/;"	f
 toggleDrawing	.\index2.html	/^      function toggleDrawing(drawingManager) {$/;"	f
 width	.\js\app.js	/^var width = window.innerWidth,$/;"	v
