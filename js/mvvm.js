@@ -23,7 +23,7 @@ var ViewModel = function() {
     };
 
     // Map elements
-    this.locations = locations;
+    this.locations = model.locations;
     this.filter = {
         duration: ko.observable('15'),
         durationLabel: ko.observable('15 min'),
@@ -34,7 +34,7 @@ var ViewModel = function() {
     };
 
     this.enableDetails = function() {
-        populateInfoWindow(markers[locations.indexOf(this)], largeInfoWindow);
+        populateInfoWindow(markers[model.locations.indexOf(this)], largeInfoWindow);
     }
 
     this.applyFilter = function() {

@@ -5,6 +5,7 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 Location	.\js\model.js	/^function Location(item) {$/;"	c
+Model	.\js\model.js	/^function Model() {$/;"	c
 ViewModel	.\js\mvvm.js	/^var ViewModel = function() {$/;"	c
 ViewModel.applyFilter	.\js\mvvm.js	/^    this.applyFilter = function() {$/;"	m
 ViewModel.clearFilter	.\js\mvvm.js	/^    this.clearFilter = function() {$/;"	m
@@ -17,14 +18,16 @@ displayDirections	.\index2.html	/^      function displayDirections(origin) {$/;"
 displayDirections	.\js\map.js	/^function displayDirections(origin) {$/;"	f
 displayMarkersWithinTime	.\index2.html	/^      function displayMarkersWithinTime(response) {$/;"	f
 displayMarkersWithinTime	.\js\map.js	/^function displayMarkersWithinTime(response, maxDuration) {$/;"	f
-function.getStreetView	.\js\map.js	/^    function getStreetView(data, status) {$/;"	f
+getContent	.\js\model.js	/^    this.getContent = function(location, callback) {$/;"	f
+getDescriptionContent	.\js\model.js	/^    this.getDescriptionContent = function(location, callback) {$/;"	f
+getPlaceContent	.\js\model.js	/^    this.getPlaceContent = function(location, callback) {$/;"	f
 getStreetView	.\index2.html	/^          function getStreetView(data, status) {$/;"	f
+getWikiContent	.\js\model.js	/^    this.getWikiContent = function(location, callback) {$/;"	f
 hideMarkers	.\index2.html	/^      function hideMarkers(markers) {$/;"	f
 hideMarkers	.\js\map.js	/^function hideMarkers(markers) {$/;"	f
 initMap	.\index2.html	/^      function initMap() {$/;"	f
 initMap	.\js\map.js	/^function initMap() {$/;"	f
 largeInfoWindow	.\js\map.js	/^var largeInfoWindow;$/;"	v
-locations	.\js\model.js	/^var locations = data.map(function(item) {$/;"	v
 makeMarkerIcon	.\index2.html	/^      function makeMarkerIcon(markerColor) {$/;"	f
 makeMarkerIcon	.\js\map.js	/^    function makeMarkerIcon(markerColor) {$/;"	f
 map	.\js\map.js	/^var map;$/;"	v
@@ -41,7 +44,10 @@ showListings	.\index2.html	/^      function showListings() {$/;"	f
 showListings	.\js\map.js	/^function showListings() {$/;"	f
 textSearchPlaces	.\index2.html	/^      function textSearchPlaces() {$/;"	f
 toggleDrawing	.\index2.html	/^      function toggleDrawing(drawingManager) {$/;"	f
-var.panoramaOptions.position	.\js\map.js	/^            position: nearStreetViewLocation,$/;"	p
-var.panoramaOptions.pov	.\js\map.js	/^            pov: {$/;"	p
+utils.get	.\js\model.js	/^    get: function (url, callback) {$/;"	m
+utils.getp	.\js\model.js	/^    getp: function (url, callback) {$/;"	m
 voMarker	.\js\map.js	/^    var voMarker = makeMarkerIcon('587469');$/;"	v
+window.jsonp_callback	.\js\model.js	/^        window.jsonp_callback = function(response) {$/;"	f
+xhr.onerror	.\js\model.js	/^        xhr.onerror = function() {$/;"	f
+xhr.onload	.\js\model.js	/^        xhr.onload = function() {$/;"	f
 zoomToArea	.\index2.html	/^      function zoomToArea() {$/;"	f

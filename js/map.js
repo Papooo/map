@@ -44,9 +44,9 @@ function initMap() {
         document.getElementById('search-within-time-text'));
     // This autocomplete is for use in the geocoder entry box.
 
-    for (var i = 0; i < locations.length; i++) {
-        var position = locations[i].location();
-        var title = locations[i].title();
+    for (var i = 0; i < model.locations.length; i++) {
+        var position = model.locations[i].location();
+        var title = model.locations[i].title();
         var marker = new google.maps.Marker({
                 // map: map,
                 position: position,
@@ -98,7 +98,7 @@ function populateInfoWindow(marker, infowindow) {
           infowindow.marker.setAnimation(null);
       }
     // Clear the infowindow content to give the streetview time to load.
-    infowindow.setContent('');
+    infowindow.setContent('<p>Loading additional information ...</p>');
     infowindow.marker = marker;
     marker.setAnimation(google.maps.Animation.BOUNCE);
     // Make sure the marker property is cleared if the infowindow is closed.
@@ -110,36 +110,17 @@ function populateInfoWindow(marker, infowindow) {
         infowindow.marker.setAnimation(null);
         infowindow.marker = null;
     });
-    var streetViewService = new google.maps.StreetViewService();
-    var radius = 50;
-    // In case the status is OK, which means the pano was found, compute the
-    // position of the streetview image, then calculate the heading, then get a
-    // panorama from that and set the options
-    function getStreetView(data, status) {
-      if (status == google.maps.StreetViewStatus.OK) {
-        var nearStreetViewLocation = data.location.latLng;
-        var heading = google.maps.geometry.spherical.computeHeading(
-          nearStreetViewLocation, marker.position);
-          infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
-          var panoramaOptions = {
-            position: nearStreetViewLocation,
-            pov: {
-              heading: heading,
-              pitch: 30
-            }
-          };
-        var panorama = new google.maps.StreetViewPanorama(
-          document.getElementById('pano'), panoramaOptions);
-      } else {
-        infowindow.setContent('<div>' + marker.title + '</div>' +
-          '<div>No Street View Found</div>');
-      }
-    }
-    // Use streetview service to get the closest streetview image within
-    // 50 meters of the markers position
-    streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-    // Open the infowindow on the correct marker.
+
     infowindow.open(map, marker);
+
+    model.getContent(model.locations[markers.indexOf(marker)], function(content) {
+        if (!content) {
+            infowindow.setContent('<p>No content is currently available</p>');
+        }
+        else {
+            infowindow.setContent(content);
+        }
+    });
   }
 }
 
@@ -147,7 +128,7 @@ function showListings() {
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
-        locations[i].visible(true);
+        model.locations[i].visible(true);
         bounds.extend(markers[i].position);
     }
     map.fitBounds(bounds);
@@ -156,7 +137,7 @@ function showListings() {
 function hideMarkers(markers) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
-        locations[i].visible(false);
+        model.locations[i].visible(false);
     }
 }
 
@@ -219,7 +200,7 @@ function displayMarkersWithinTime(response, maxDuration) {
         if (duration <= maxDuration) {
           //the origin [i] should = the markers[i]
           markers[i].setMap(map);
-          locations[i].visible(true);
+          model.locations[i].visible(true);
           if (markers[i] != largeInfoWindow.marker) {
               markers[i].setAnimation(google.maps.Animation.DROP);
           } else {
