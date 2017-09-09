@@ -1,16 +1,6 @@
 var map;
 var markers = [];
 var placeMarkers = [];
-var locations = [
-        {title: 'pirmas', location: {lat: 54.678296, lng: 25.414061}},
-        {title: 'antras', location: {lat: 54.666666, lng: 25.312956}},
-        {title: 'trecias', location: {lat: 54.653288, lng: 25.314094}},
-        {title: 'ketvirtas', location: {lat: 54.653288, lng: 25.394064}},
-        {title: 'penktas', location: {lat: 54.643288, lng: 25.282718}},
-        {title: 'šeštas', location: {lat: 54.633288, lng: 25.292718}},
-        {title: 'septintas', location: {lat: 54.653288, lng: 25.242718}},
-        {title: 'aštuntas', location: {lat: 54.653288, lng: 25.252718}}
-    ];
 var largeInfoWindow;
 
 function initMap() {
@@ -53,20 +43,10 @@ function initMap() {
     var timeAutocomplete = new google.maps.places.Autocomplete(
         document.getElementById('search-within-time-text'));
     // This autocomplete is for use in the geocoder entry box.
-    var zoomAutocomplete = new google.maps.places.Autocomplete(
-        document.getElementById('zoom-to-area-text'));
-    //Bias the boundaries within the map for the zoom to area text.
-    zoomAutocomplete.bindTo('bounds', map);
-    // Create a searchbox in order to execute a places search
-    var searchBox = new google.maps.places.SearchBox(
-        document.getElementById('places-search'));
-    // Bias the searchbox to within the bounds of the map.
-    searchBox.setBounds(map.getBounds());
-
 
     for (var i = 0; i < locations.length; i++) {
-        var position = locations[i].location;
-        var title = locations[i].title;
+        var position = locations[i].location();
+        var title = locations[i].title();
         var marker = new google.maps.Marker({
                 // map: map,
                 position: position,
@@ -92,41 +72,6 @@ function initMap() {
     }
 
     showListings();
-
-    document.getElementById('zoom-to-area').addEventListener('click', function() {
-        zoomToArea();
-    });
-
-    document.getElementById('search-within-time').addEventListener('click', function() {
-      searchWithinTime();
-    });
-    // Listen for the event fired when the user selects a prediction from the
-    // picklist and retrieve more details for that place.
-    searchBox.addListener('places_changed', function() {
-      searchBoxPlaces(this);
-    });
-
-    // Listen for the event fired when the user selects a prediction and clicks
-    // "go" more details for that place.
-    document.getElementById('go-places').addEventListener('click', textSearchPlaces);
-
-
-
-    drawingManager.addListener('overlaycomplete', function(event) {
-        if (polygon) {
-            polygon.setMap(null);
-            hideMarkers(markers);
-        }
-        drawingManager.setDrawingMode(null);
-        polygon = event.overlay;
-        polygon.setEditable(true);
-        searchWithinPolygon();
-        polygon.getPath().addListener('set_at', searchWithinPolygon);
-        polygon.getPath().addListener('insert_at', searchWithinPolygon);
-        var area = google.maps.geometry.spherical.computeArea(polygon.getPath());
-        console.log('plotas ' + area + 'm2');
-
-    });
 
     // This function takes in a COLOR, and then creates a new marker
     // icon of that color. The icon will be 21 px wide by 34 high, have an origin
@@ -158,6 +103,10 @@ function populateInfoWindow(marker, infowindow) {
     marker.setAnimation(google.maps.Animation.BOUNCE);
     // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick', function() {
+        if (!infowindow.marker) {
+            return;
+        }
+
         infowindow.marker.setAnimation(null);
         infowindow.marker = null;
     });
@@ -198,6 +147,7 @@ function showListings() {
     var bounds = new google.maps.LatLngBounds();
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
+        locations[i].visible(true);
         bounds.extend(markers[i].position);
     }
     map.fitBounds(bounds);
@@ -206,69 +156,14 @@ function showListings() {
 function hideMarkers(markers) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
+        locations[i].visible(false);
     }
 }
 
-function toggleDrawing(drawingManager) {
-    if (drawingManager.map) {
-        drawingManager.setMap(null);
-        if (polygon !== null) {
-            polygon.setMap(null);
-        }
-    } else {
-        drawingManager.setMap(map);
-    }
-}
-
-// function searchWithinPolygon() {
-//     for (var i = 0; i < markers.length; i++) {
-//         if (google.maps.geometry.poly.containsLocation(markers.[i].position, polygon)) {
-//             markers[i].setMap(map);
-//         } else {
-//             markers[i].setMap(null);
-//         }
-//     }
-// }
-//
-function searchWithinPolygon() {
-  for (var i = 0; i < markers.length; i++) {
-    if (google.maps.geometry.poly.containsLocation(markers[i].position, polygon)) {
-      markers[i].setMap(map);
-    } else {
-      markers[i].setMap(null);
-    }
-  }
-}
-
-function zoomToArea() {
-    var address = document.getElementById('zoom-to-area-text').value;
-    var geocoder =  new google.maps.Geocoder();
-
-    if (address == '') {
-        window.aler('Please enter address');
-    } else {
-        geocoder.geocode(
-            {
-                address: address,
-                componentRestrictions: {locality: 'Vilnius'}
-            },
-            function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    map.setCenter(results[0].geometry.location);
-                    map.setZoom(15);
-                    // window.alert(results[0]);
-                } else {
-                    window.alert('Ups, not found');
-                }
-            }
-        );
-    }
-
-}
-function searchWithinTime() {
+function searchWithinTime(maxDuration, mode, address) {
   // Initialize the distance matrix service.
   var distanceMatrixService = new google.maps.DistanceMatrixService;
-  var address = document.getElementById('search-within-time-text').value;
+
   // Check to make sure the place entered isn't blank.
   if (address == '') {
     window.alert('You must enter an address.');
@@ -281,20 +176,19 @@ function searchWithinTime() {
     for (var i = 0; i < markers.length; i++) {
       origins[i] = markers[i].position;
     }
-    var destination = address;
-    var mode = document.getElementById('mode').value;
+
     // Now that both the origins and destination are defined, get all the
     // info for the distances between them.
     distanceMatrixService.getDistanceMatrix({
       origins: origins,
-      destinations: [destination],
+      destinations: [address],
       travelMode: google.maps.TravelMode[mode]
     //   unitSystem: google.maps.UnitSystem.IMPERIAL,
     }, function(response, status) {
       if (status !== google.maps.DistanceMatrixStatus.OK) {
         window.alert('Error was: ' + status);
       } else {
-        displayMarkersWithinTime(response);
+        displayMarkersWithinTime(response, maxDuration);
       }
     });
   }
@@ -302,8 +196,7 @@ function searchWithinTime() {
 
 // This function will go through each of the results, and,
 // if the distance is LESS than the value in the picker, show it on the map.
-function displayMarkersWithinTime(response) {
-  var maxDuration = document.getElementById('max-duration').value;
+function displayMarkersWithinTime(response, maxDuration) {
   var origins = response.originAddresses;
   var destinations = response.destinationAddresses;
   // Parse through the results, and get the distance and duration of each.
@@ -326,21 +219,15 @@ function displayMarkersWithinTime(response) {
         if (duration <= maxDuration) {
           //the origin [i] should = the markers[i]
           markers[i].setMap(map);
+          locations[i].visible(true);
+          if (markers[i] != largeInfoWindow.marker) {
+              markers[i].setAnimation(google.maps.Animation.DROP);
+          } else {
+               markers[i].setAnimation(google.maps.Animation.BOUNCE);
+          }
           atLeastOne = true;
           // Create a mini infowindow to open immediately and contain the
           // distance and duration
-          var infowindow = new google.maps.InfoWindow({
-            content: durationText + ' away, ' + distanceText +
-              '<div><input type=\"button\" value=\"View Route\" onclick =' +
-              '\"displayDirections(&quot;' + origins[i] + '&quot;);\"></input></div>'
-          });
-          infowindow.open(map, markers[i]);
-          // Put this in so that this small window closes if the user clicks
-          // the marker, when the big infowindow opens
-          markers[i].infowindow = infowindow;
-          google.maps.event.addListener(markers[i], 'click', function() {
-            this.infowindow.close();
-          });
         }
       }
     }
@@ -379,119 +266,6 @@ function displayDirections(origin) {
       });
     } else {
       window.alert('Directions request failed due to ' + status);
-    }
-  });
-}
-// This function fires when the user selects a searchbox picklist item.
-// It will do a nearby search using the selected query string or place.
-function searchBoxPlaces(searchBox) {
-  hideMarkers(placeMarkers);
-  var places = searchBox.getPlaces();
-  // For each place, get the icon, name and location.
-  createMarkersForPlaces(places);
-  if (places.length == 0) {
-    window.alert('We did not find any places matching that search!');
-  }
-}
-
-// This function firest when the user select "go" on the places search.
-// It will do a nearby search using the entered query string or place.
-function textSearchPlaces() {
-  var bounds = map.getBounds();
-  hideMarkers(placeMarkers);
-  var placesService = new google.maps.places.PlacesService(map);
-  placesService.textSearch({
-    query: document.getElementById('places-search').value,
-    bounds: bounds
-  }, function(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      createMarkersForPlaces(results);
-    }
-  });
-}
-
-// This function creates markers for each place found in either places search.
-function createMarkersForPlaces(places) {
-  var bounds = new google.maps.LatLngBounds();
-  for (var i = 0; i < places.length; i++) {
-    var place = places[i];
-    var icon = {
-      url: place.icon,
-      size: new google.maps.Size(35, 35),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(15, 34),
-      scaledSize: new google.maps.Size(25, 25)
-    };
-    // Create a marker for each place.
-    var marker = new google.maps.Marker({
-      map: map,
-      icon: icon,
-      title: place.name,
-      position: place.geometry.location,
-      id: place.place_id
-    });
-    // Create a single infowindow to be used with the place details information
-    // so that only one is open at once.
-    var placeInfoWindow = new google.maps.InfoWindow();
-
-    // If a marker is clicked, do a place details search on it in the next function.
-    marker.addListener('click', function() {
-      if (placeInfoWindow.marker == this) {
-        console.log("This infowindow already is on this marker!");
-      } else {
-        getPlacesDetails(this, placeInfoWindow);
-      }
-    });
-    placeMarkers.push(marker);
-    if (place.geometry.viewport) {
-      // Only geocodes have viewport.
-      bounds.union(place.geometry.viewport);
-    } else {
-      bounds.extend(place.geometry.location);
-    }
-  }
-  map.fitBounds(bounds);
-}
-
-function getPlacesDetails(marker, infowindow) {
-  var service = new google.maps.places.PlacesService(map);
-  service.getDetails({
-    placeId: marker.id
-  }, function(place, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      // Set the marker property on this infowindow so it isn't created again.
-      infowindow.marker = marker;
-      var innerHTML = '<div>';
-      if (place.name) {
-        innerHTML += '<strong>' + place.name + '</strong>';
-      }
-      if (place.formatted_address) {
-        innerHTML += '<br>' + place.formatted_address;
-      }
-      if (place.formatted_phone_number) {
-        innerHTML += '<br>' + place.formatted_phone_number;
-      }
-      if (place.opening_hours) {
-        innerHTML += '<br><br><strong>Hours:</strong><br>' +
-            place.opening_hours.weekday_text[0] + '<br>' +
-            place.opening_hours.weekday_text[1] + '<br>' +
-            place.opening_hours.weekday_text[2] + '<br>' +
-            place.opening_hours.weekday_text[3] + '<br>' +
-            place.opening_hours.weekday_text[4] + '<br>' +
-            place.opening_hours.weekday_text[5] + '<br>' +
-            place.opening_hours.weekday_text[6];
-      }
-      if (place.photos) {
-        innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
-            {maxHeight: 100, maxWidth: 200}) + '">';
-      }
-      innerHTML += '</div>';
-      infowindow.setContent(innerHTML);
-      infowindow.open(map, marker);
-      // Make sure the marker property is cleared if the infowindow is closed.
-      infowindow.addListener('closeclick', function() {
-        infowindow.marker = null;
-      });
     }
   });
 }

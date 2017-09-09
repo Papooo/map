@@ -4,24 +4,27 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+Location	.\js\model.js	/^function Location(item) {$/;"	c
 ViewModel	.\js\mvvm.js	/^var ViewModel = function() {$/;"	c
+ViewModel.applyFilter	.\js\mvvm.js	/^    this.applyFilter = function() {$/;"	m
+ViewModel.clearFilter	.\js\mvvm.js	/^    this.clearFilter = function() {$/;"	m
 ViewModel.enableDetails	.\js\mvvm.js	/^    this.enableDetails = function() {$/;"	m
+ViewModel.filter.duration	.\js\mvvm.js	/^        duration: ko.observable('15'),$/;"	p
 ViewModel.toggleListView	.\js\mvvm.js	/^    this.toggleListView = function() {$/;"	m
 ViewModel.toggleSearchView	.\js\mvvm.js	/^    this.toggleSearchView = function() {$/;"	m
 createMarkersForPlaces	.\index2.html	/^      function createMarkersForPlaces(places) {$/;"	f
-createMarkersForPlaces	.\js\map.js	/^function createMarkersForPlaces(places) {$/;"	f
 displayDirections	.\index2.html	/^      function displayDirections(origin) {$/;"	f
 displayDirections	.\js\map.js	/^function displayDirections(origin) {$/;"	f
 displayMarkersWithinTime	.\index2.html	/^      function displayMarkersWithinTime(response) {$/;"	f
-displayMarkersWithinTime	.\js\map.js	/^function displayMarkersWithinTime(response) {$/;"	f
+displayMarkersWithinTime	.\js\map.js	/^function displayMarkersWithinTime(response, maxDuration) {$/;"	f
 function.getStreetView	.\js\map.js	/^    function getStreetView(data, status) {$/;"	f
-getPlacesDetails	.\js\map.js	/^function getPlacesDetails(marker, infowindow) {$/;"	f
 getStreetView	.\index2.html	/^          function getStreetView(data, status) {$/;"	f
 hideMarkers	.\index2.html	/^      function hideMarkers(markers) {$/;"	f
 hideMarkers	.\js\map.js	/^function hideMarkers(markers) {$/;"	f
 initMap	.\index2.html	/^      function initMap() {$/;"	f
 initMap	.\js\map.js	/^function initMap() {$/;"	f
 largeInfoWindow	.\js\map.js	/^var largeInfoWindow;$/;"	v
+locations	.\js\model.js	/^var locations = data.map(function(item) {$/;"	v
 makeMarkerIcon	.\index2.html	/^      function makeMarkerIcon(markerColor) {$/;"	f
 makeMarkerIcon	.\js\map.js	/^    function makeMarkerIcon(markerColor) {$/;"	f
 map	.\js\map.js	/^var map;$/;"	v
@@ -31,20 +34,14 @@ placeMarkers	.\js\map.js	/^var placeMarkers = [];$/;"	v
 populateInfoWindow	.\index2.html	/^      function populateInfoWindow(marker, infowindow) {$/;"	f
 populateInfoWindow	.\js\map.js	/^function populateInfoWindow(marker, infowindow) {$/;"	f
 searchBoxPlaces	.\index2.html	/^      function searchBoxPlaces(searchBox) {$/;"	f
-searchBoxPlaces	.\js\map.js	/^function searchBoxPlaces(searchBox) {$/;"	f
 searchWithinPolygon	.\index2.html	/^      function searchWithinPolygon() {$/;"	f
-searchWithinPolygon	.\js\map.js	/^function searchWithinPolygon() {$/;"	f
 searchWithinTime	.\index2.html	/^      function searchWithinTime() {$/;"	f
-searchWithinTime	.\js\map.js	/^function searchWithinTime() {$/;"	f
+searchWithinTime	.\js\map.js	/^function searchWithinTime(maxDuration, mode, address) {$/;"	f
 showListings	.\index2.html	/^      function showListings() {$/;"	f
 showListings	.\js\map.js	/^function showListings() {$/;"	f
 textSearchPlaces	.\index2.html	/^      function textSearchPlaces() {$/;"	f
-textSearchPlaces	.\js\map.js	/^function textSearchPlaces() {$/;"	f
 toggleDrawing	.\index2.html	/^      function toggleDrawing(drawingManager) {$/;"	f
-toggleDrawing	.\js\map.js	/^function toggleDrawing(drawingManager) {$/;"	f
-var.icon.url	.\js\map.js	/^      url: place.icon,$/;"	p
 var.panoramaOptions.position	.\js\map.js	/^            position: nearStreetViewLocation,$/;"	p
 var.panoramaOptions.pov	.\js\map.js	/^            pov: {$/;"	p
 voMarker	.\js\map.js	/^    var voMarker = makeMarkerIcon('587469');$/;"	v
 zoomToArea	.\index2.html	/^      function zoomToArea() {$/;"	f
-zoomToArea	.\js\map.js	/^function zoomToArea() {$/;"	f

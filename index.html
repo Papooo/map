@@ -21,43 +21,34 @@
         <section id="section" class="flex-container" data-bind="css: { 'show-list': sidebarView() == 'list', 'show-search': sidebarView() == 'search' }">
             <aside id="list" class="flex-item is-open">
                 <div class="options-box">
-                    <h1>Vilniaus Vaizdai</h1>
-                    <div class="">
-                        <input id="zoom-to-area-text" type="text" name="Zoom area" value="Riovonys" placeholder="Enter your area">
-                        <input id="zoom-to-area" type="button" name="Zoom button" value="Zoom">
-                    </div>
-                    <hr>
+                    <h1>Friendly Locations</h1>
+                    <p data-bind="if: filter.isApplied"><mark data-bind="text: filter.durationLabel"></mark> <mark data-bind="text: filter.modeLabel"></mark> from <mark  data-bind="text: filter.address"></mark> <input type="button" value="Clear filter" data-bind="click: clearFilter"></p>
                     <div>
                       <span class="text"> Within </span>
-                      <select id="max-duration">
+                      <select id="max-duration" data-bind="value: filter.duration">
                         <option value="10">10 min</option>
                         <option value="15">15 min</option>
                         <option value="30">30 min</option>
                         <option value="60">1 hour</option>
                       </select>
-                      <select id="mode">
+                      <select id="mode" data-bind="value: filter.mode">
                         <option value="DRIVING">drive</option>
                         <option value="WALKING">walk</option>
                         <option value="BICYCLING">bike</option>
                         <option value="TRANSIT">transit ride</option>
                       </select>
                       <span class="text">of</span>
-                      <input id="search-within-time-text" type="text" placeholder="Ex: Google Office NYC or 75 9th Ave, New York, NY" value="Savanoriu 178">
-                      <input id="search-within-time" type="button" value="Go">
+                      <input id="search-within-time-text" type="text" placeholder="Ex: Google Office NYC or 75 9th Ave, New York, NY"  data-bind="value: filter.address">
+                      <input id="search-within-time" type="button" value="Go" data-bind="click: applyFilter">
                     </div>
                     <hr>
-                    <div>
-                      <span class="text">Search for nearby places</span>
-                      <input id="places-search" type="text" placeholder="Ex: Pizza delivery in NYC">
-                      <input id="go-places" type="button" value="Go">
-                    </div>
                 </div>
                 <div class="list-box" data-bind="foreach: locations">
-                    <article  class="list-item" data-bind="click: $parent.enableDetails">
+                    <article  class="list-item" data-bind="click: $parent.enableDetails, if: visible">
                         <h2 data-bind="text: title"></h2>
                         <p>
-                            <label for="">Lat:</label><span data-bind="text: location.lat"></span>
-                            <label for="">Lng:</label><span data-bind="text: location.lng"></span>
+                            <label for="">Lat:</label><span data-bind="text: location().lat"></span>
+                            <label for="">Lng:</label><span data-bind="text: location().lng"></span>
                         </p>
                     </article>
                 </div>
@@ -68,6 +59,7 @@
 
         </footer>
         <script src="js/knockout-3.4.2.js"></script>
+        <script src="js/model.js"></script>
         <script src="js/map.js"></script>
         <script src="js/mvvm.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAi-ZIKWRA1xBrdtjWepic1KSQhntDTRhM&callback=initMap&libraries=geometry,drawing,places"

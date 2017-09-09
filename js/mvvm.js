@@ -23,11 +23,35 @@ var ViewModel = function() {
     };
 
     // Map elements
-    this.locations = ko.observableArray(locations);
+    this.locations = locations;
+    this.filter = {
+        duration: ko.observable('15'),
+        durationLabel: ko.observable('15 min'),
+        mode: ko.observable('DRIVING'),
+        modeLabel: ko.observable('drive'),
+        address: ko.observable('Savanoriu 178'),
+        isApplied: ko.observable(false)
+    };
 
     this.enableDetails = function() {
         populateInfoWindow(markers[locations.indexOf(this)], largeInfoWindow);
     }
+
+    this.applyFilter = function() {
+        this.filter.durationLabel(document.querySelector('#max-duration option[value="'
+            + this.filter.duration() + '"]').textContent);
+        this.filter.modeLabel(document.querySelector('#mode option[value="'
+            + this.filter.mode() + '"]').textContent);
+        this.filter.isApplied(true);
+
+        searchWithinTime(this.filter.duration(), this.filter.mode(), this.filter.address());
+    };
+
+    this.clearFilter = function() {
+        this.filter.isApplied(false);
+        showListings();
+    };
+
     // this.disableDetails = function() {
     //     largeInfoWindow.close();
     //     largeInfoWindow.marker = null;
