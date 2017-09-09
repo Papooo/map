@@ -46,10 +46,16 @@
                 <div class="list-box" data-bind="foreach: locations">
                     <article  class="list-item" data-bind="click: $parent.enableDetails, if: visible">
                         <h2 data-bind="text: title"></h2>
-                        <p>
-                            <label for="">Lat:</label><span data-bind="text: location().lat"></span>
-                            <label for="">Lng:</label><span data-bind="text: location().lng"></span>
-                        </p>
+                        <div data-bind="if: !loaded()">
+                            <p>Checking information online ...</p>
+                        </div>
+                        <div data-bind="if: loaded() == 'OK'">
+                            <p data-bind="text: address"></p>
+                            <a data-bind="attr: {href: url}" target="_blank">More information</a>
+                        </div>
+                        <div data-bind="if: loaded() &&  loaded() != 'OK'">
+                            <p>No information is available online</p>
+                        </div>
                     </article>
                 </div>
             </aside>

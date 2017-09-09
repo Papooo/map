@@ -1,6 +1,5 @@
 var map;
 var markers = [];
-var placeMarkers = [];
 var largeInfoWindow;
 
 function initMap() {
@@ -42,7 +41,6 @@ function initMap() {
     // This autocomplete is for use in the search within time entry box.
     var timeAutocomplete = new google.maps.places.Autocomplete(
         document.getElementById('search-within-time-text'));
-    // This autocomplete is for use in the geocoder entry box.
 
     for (var i = 0; i < model.locations.length; i++) {
         var position = model.locations[i].location();
@@ -88,6 +86,9 @@ function initMap() {
         return markerImage;
     }
 
+    model.locations.forEach(function(location) {
+        location.loadContent();
+    });
 }
 
 function populateInfoWindow(marker, infowindow) {
@@ -216,37 +217,4 @@ function displayMarkersWithinTime(response, maxDuration) {
   if (!atLeastOne) {
     window.alert('We could not find any locations within that distance!');
   }
-}
-
-// This function is in response to the user selecting "show route" on one
-// of the markers within the calculated distance. This will display the route
-// on the map.
-function displayDirections(origin) {
-  hideMarkers(markers);
-  var directionsService = new google.maps.DirectionsService;
-  // Get the destination address from the user entered value.
-  var destinationAddress =
-      document.getElementById('search-within-time-text').value;
-  // Get mode again from the user entered value.
-  var mode = document.getElementById('mode').value;
-  directionsService.route({
-    // The origin is the passed in marker's position.
-    origin: origin,
-    // The destination is user entered address.
-    destination: destinationAddress,
-    travelMode: google.maps.TravelMode[mode]
-  }, function(response, status) {
-    if (status === google.maps.DirectionsStatus.OK) {
-      var directionsDisplay = new google.maps.DirectionsRenderer({
-        map: map,
-        directions: response,
-        draggable: true,
-        polylineOptions: {
-          strokeColor: 'green'
-        }
-      });
-    } else {
-      window.alert('Directions request failed due to ' + status);
-    }
-  });
 }

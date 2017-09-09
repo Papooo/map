@@ -8,17 +8,13 @@ var ViewModel = function() {
 
     this.sidebarView = ko.observable(sidebar);
 
-    // this.isListVisible = ko.observable(false);
     this.toggleListView = function() {
         this.sidebarView() === 'list' ? this.sidebarView('') : this.sidebarView('list');
-        // this.isListVisible(!this.isListVisible());
         window.dispatchEvent(new Event('resize'));
     };
-    // this.isSearchVisible = ko.observable(false);
+
     this.toggleSearchView = function() {
         this.sidebarView() === 'search' ? this.sidebarView('') : this.sidebarView('search');
-        // this.sidebarView('search');
-        // this.isSearchtVisible(!this.isSearchVisible());
         window.dispatchEvent(new Event('resize'));
     };
 
@@ -51,14 +47,6 @@ var ViewModel = function() {
         this.filter.isApplied(false);
         showListings();
     };
-
-    // this.disableDetails = function() {
-    //     largeInfoWindow.close();
-    //     largeInfoWindow.marker = null;
-    //
-    // }
-
 };
 
-// ko.applyBindings(myViewModel, document.getElementById('someElementId'));
 ko.applyBindings(new ViewModel());

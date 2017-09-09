@@ -5,6 +5,8 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 Location	.\js\model.js	/^function Location(item) {$/;"	c
+Location.getPlaceContent	.\js\model.js	/^Location.prototype.getPlaceContent = function(callback) {$/;"	m
+Location.loadContent	.\js\model.js	/^Location.prototype.loadContent = function() {$/;"	m
 Model	.\js\model.js	/^function Model() {$/;"	c
 ViewModel	.\js\mvvm.js	/^var ViewModel = function() {$/;"	c
 ViewModel.applyFilter	.\js\mvvm.js	/^    this.applyFilter = function() {$/;"	m
@@ -15,7 +17,6 @@ ViewModel.toggleListView	.\js\mvvm.js	/^    this.toggleListView = function() {$/
 ViewModel.toggleSearchView	.\js\mvvm.js	/^    this.toggleSearchView = function() {$/;"	m
 createMarkersForPlaces	.\index2.html	/^      function createMarkersForPlaces(places) {$/;"	f
 displayDirections	.\index2.html	/^      function displayDirections(origin) {$/;"	f
-displayDirections	.\js\map.js	/^function displayDirections(origin) {$/;"	f
 displayMarkersWithinTime	.\index2.html	/^      function displayMarkersWithinTime(response) {$/;"	f
 displayMarkersWithinTime	.\js\map.js	/^function displayMarkersWithinTime(response, maxDuration) {$/;"	f
 getContent	.\js\model.js	/^    this.getContent = function(location, callback) {$/;"	f
@@ -33,7 +34,6 @@ makeMarkerIcon	.\js\map.js	/^    function makeMarkerIcon(markerColor) {$/;"	f
 map	.\js\map.js	/^var map;$/;"	v
 markers	.\js\map.js	/^var markers = [];$/;"	v
 myMarker	.\js\map.js	/^    var myMarker = makeMarkerIcon('c0c0c0');$/;"	v
-placeMarkers	.\js\map.js	/^var placeMarkers = [];$/;"	v
 populateInfoWindow	.\index2.html	/^      function populateInfoWindow(marker, infowindow) {$/;"	f
 populateInfoWindow	.\js\map.js	/^function populateInfoWindow(marker, infowindow) {$/;"	f
 searchBoxPlaces	.\index2.html	/^      function searchBoxPlaces(searchBox) {$/;"	f

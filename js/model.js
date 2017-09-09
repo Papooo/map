@@ -65,12 +65,10 @@ function Model() {
     };
 
     this.getPlaceContent = function(location, callback) {
-        var service = new google.maps.places.PlacesService(map);
-        service.getDetails({'placeId': location.placeid()}, function(results, status) {
-            if (status === 'OK') {
-                console.log(results);
+        location.getPlaceContent(function(content) {
+            if (content) {
                 callback('<p>' +
-                    results.formatted_address +
+                    content.formatted_address +
                     '</p>'
                 );
             } else {
@@ -91,7 +89,41 @@ function Location(item) {
     });
     this.placeid = ko.observable(item.placeid);
     this.visible = ko.observable(true);
+    this.url = ko.observable(null);
+    this.address = ko.observable(null);
+    this.loaded = ko.observable(false);
+    this.callbacks = [];
+    this.getPlaceContent(function(content) {
+        console.log(content);
+        this.url(content.website);
+        this.address(content.formatted_address);
+    }.bind(this));
 }
+
+Location.prototype.loadContent = function() {
+
+    var service = new google.maps.places.PlacesService(map);
+    service.getDetails({'placeId': this.placeid()}, function(results, status) {
+        if (status === 'OK') {
+            this.placeContent = results;
+        }
+        this.loaded(status);
+        this.callbacks.forEach(function(callback) {
+            callback(this.placeContent);
+        }.bind(this));
+
+        delete this.callbacks;
+
+    }.bind(this));
+};
+
+Location.prototype.getPlaceContent = function(callback) {
+    if (this.loaded()) {
+        callback(this.placeContent);
+    } else {
+        this.callbacks.push(callback);
+    }
+};
 
 // adapted from stack overflow
 var utils = {
