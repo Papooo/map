@@ -4,35 +4,47 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-createMarkersForPlaces	.\index.html	/^            function createMarkersForPlaces(places) {$/;"	f
+ViewModel	.\js\mvvm.js	/^var ViewModel = function() {$/;"	c
+ViewModel.enableDetails	.\js\mvvm.js	/^    this.enableDetails = function() {$/;"	m
+ViewModel.toggleListView	.\js\mvvm.js	/^    this.toggleListView = function() {$/;"	m
+ViewModel.toggleSearchView	.\js\mvvm.js	/^    this.toggleSearchView = function() {$/;"	m
 createMarkersForPlaces	.\index2.html	/^      function createMarkersForPlaces(places) {$/;"	f
-displayDirections	.\index.html	/^            function displayDirections(origin) {$/;"	f
+createMarkersForPlaces	.\js\map.js	/^function createMarkersForPlaces(places) {$/;"	f
 displayDirections	.\index2.html	/^      function displayDirections(origin) {$/;"	f
-displayMarkersWithinTime	.\index.html	/^            function displayMarkersWithinTime(response) {$/;"	f
+displayDirections	.\js\map.js	/^function displayDirections(origin) {$/;"	f
 displayMarkersWithinTime	.\index2.html	/^      function displayMarkersWithinTime(response) {$/;"	f
-getPlacesDetails	.\index.html	/^            function getPlacesDetails(marker, infowindow) {$/;"	f
-getStreetView	.\index.html	/^                function getStreetView(data, status) {$/;"	f
+displayMarkersWithinTime	.\js\map.js	/^function displayMarkersWithinTime(response) {$/;"	f
+function.getStreetView	.\js\map.js	/^    function getStreetView(data, status) {$/;"	f
+getPlacesDetails	.\js\map.js	/^function getPlacesDetails(marker, infowindow) {$/;"	f
 getStreetView	.\index2.html	/^          function getStreetView(data, status) {$/;"	f
-hideMarkers	.\index.html	/^            function hideMarkers(markers) {$/;"	f
 hideMarkers	.\index2.html	/^      function hideMarkers(markers) {$/;"	f
-initMap	.\index.html	/^            function initMap() {$/;"	f
+hideMarkers	.\js\map.js	/^function hideMarkers(markers) {$/;"	f
 initMap	.\index2.html	/^      function initMap() {$/;"	f
-makeMarkerIcon	.\index.html	/^                function makeMarkerIcon(markerColor) {$/;"	f
+initMap	.\js\map.js	/^function initMap() {$/;"	f
+largeInfoWindow	.\js\map.js	/^var largeInfoWindow;$/;"	v
 makeMarkerIcon	.\index2.html	/^      function makeMarkerIcon(markerColor) {$/;"	f
-populateInfoWindow	.\index.html	/^            function populateInfoWindow(marker, infowindow) {$/;"	f
+makeMarkerIcon	.\js\map.js	/^    function makeMarkerIcon(markerColor) {$/;"	f
+map	.\js\map.js	/^var map;$/;"	v
+markers	.\js\map.js	/^var markers = [];$/;"	v
+myMarker	.\js\map.js	/^    var myMarker = makeMarkerIcon('c0c0c0');$/;"	v
+placeMarkers	.\js\map.js	/^var placeMarkers = [];$/;"	v
 populateInfoWindow	.\index2.html	/^      function populateInfoWindow(marker, infowindow) {$/;"	f
-searchBoxPlaces	.\index.html	/^            function searchBoxPlaces(searchBox) {$/;"	f
+populateInfoWindow	.\js\map.js	/^function populateInfoWindow(marker, infowindow) {$/;"	f
 searchBoxPlaces	.\index2.html	/^      function searchBoxPlaces(searchBox) {$/;"	f
-searchWithinPolygon	.\index.html	/^            function searchWithinPolygon() {$/;"	f
+searchBoxPlaces	.\js\map.js	/^function searchBoxPlaces(searchBox) {$/;"	f
 searchWithinPolygon	.\index2.html	/^      function searchWithinPolygon() {$/;"	f
-searchWithinTime	.\index.html	/^            function searchWithinTime() {$/;"	f
+searchWithinPolygon	.\js\map.js	/^function searchWithinPolygon() {$/;"	f
 searchWithinTime	.\index2.html	/^      function searchWithinTime() {$/;"	f
-showListings	.\index.html	/^            function showListings() {$/;"	f
+searchWithinTime	.\js\map.js	/^function searchWithinTime() {$/;"	f
 showListings	.\index2.html	/^      function showListings() {$/;"	f
-textSearchPlaces	.\index.html	/^            function textSearchPlaces() {$/;"	f
+showListings	.\js\map.js	/^function showListings() {$/;"	f
 textSearchPlaces	.\index2.html	/^      function textSearchPlaces() {$/;"	f
-toggleDrawing	.\index.html	/^            function toggleDrawing(drawingManager) {$/;"	f
+textSearchPlaces	.\js\map.js	/^function textSearchPlaces() {$/;"	f
 toggleDrawing	.\index2.html	/^      function toggleDrawing(drawingManager) {$/;"	f
-width	.\js\app.js	/^var width = window.innerWidth,$/;"	v
-zoomToArea	.\index.html	/^            function zoomToArea() {$/;"	f
+toggleDrawing	.\js\map.js	/^function toggleDrawing(drawingManager) {$/;"	f
+var.icon.url	.\js\map.js	/^      url: place.icon,$/;"	p
+var.panoramaOptions.position	.\js\map.js	/^            position: nearStreetViewLocation,$/;"	p
+var.panoramaOptions.pov	.\js\map.js	/^            pov: {$/;"	p
+voMarker	.\js\map.js	/^    var voMarker = makeMarkerIcon('587469');$/;"	v
 zoomToArea	.\index2.html	/^      function zoomToArea() {$/;"	f
+zoomToArea	.\js\map.js	/^function zoomToArea() {$/;"	f
