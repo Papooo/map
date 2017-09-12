@@ -35,7 +35,7 @@ function initMap() {
         center: {lat: 54.678296, lng: 25.314064},
         zoom: 15,
         styles: styles,
-        mapTypeControl: true
+        mapTypeControl: false
     });
 
     // This autocomplete is for use in the search within time entry box.

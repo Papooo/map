@@ -11,10 +11,9 @@ Model	.\js\model.js	/^function Model() {$/;"	c
 ViewModel	.\js\mvvm.js	/^var ViewModel = function() {$/;"	c
 ViewModel.applyFilter	.\js\mvvm.js	/^    this.applyFilter = function() {$/;"	m
 ViewModel.clearFilter	.\js\mvvm.js	/^    this.clearFilter = function() {$/;"	m
-ViewModel.enableDetails	.\js\mvvm.js	/^    this.enableDetails = function() {$/;"	m
+ViewModel.enableDetails	.\js\mvvm.js	/^    this.enableDetails = function(data, event) {$/;"	m
 ViewModel.filter.duration	.\js\mvvm.js	/^        duration: ko.observable('15'),$/;"	p
-ViewModel.toggleListView	.\js\mvvm.js	/^    this.toggleListView = function() {$/;"	m
-ViewModel.toggleSearchView	.\js\mvvm.js	/^    this.toggleSearchView = function() {$/;"	m
+ViewModel.toggleAside	.\js\mvvm.js	/^    this.toggleAside = function() {$/;"	m
 createMarkersForPlaces	.\index2.html	/^      function createMarkersForPlaces(places) {$/;"	f
 displayDirections	.\index2.html	/^      function displayDirections(origin) {$/;"	f
 displayMarkersWithinTime	.\index2.html	/^      function displayMarkersWithinTime(response) {$/;"	f

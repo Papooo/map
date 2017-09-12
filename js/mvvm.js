@@ -1,21 +1,7 @@
 var ViewModel = function() {
-    // Sidebar View
-    var sidebar = '';
-    if (window.matchMedia("(min-width: 1024px)").matches) {
-      /* the viewport is at least 1024 pixels wide */
-      sidebar = 'list';
-    }
-
-    this.sidebarView = ko.observable(sidebar);
-
-    this.toggleListView = function() {
-        this.sidebarView() === 'list' ? this.sidebarView('') : this.sidebarView('list');
-        window.dispatchEvent(new Event('resize'));
-    };
-
-    this.toggleSearchView = function() {
-        this.sidebarView() === 'search' ? this.sidebarView('') : this.sidebarView('search');
-        window.dispatchEvent(new Event('resize'));
+    this.asideOpened = ko.observable(false);
+    this.toggleAside = function() {
+        this.asideOpened(!this.asideOpened());
     };
 
     // Map elements
@@ -29,7 +15,12 @@ var ViewModel = function() {
         isApplied: ko.observable(false)
     };
 
-    this.enableDetails = function() {
+    this.enableDetails = function(data, event) {
+        if (event.target.tagName.toLowerCase() == 'a') {
+            // allow clicking on links
+            return true;
+        }
+
         populateInfoWindow(markers[model.locations.indexOf(this)], largeInfoWindow);
     }
 
