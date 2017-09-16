@@ -14,13 +14,22 @@ body {
     box-sizing: inherit;
 }
 input {
-    font-size: 12px;
+    padding: 5px;
+    width: 95%;
 }
+select {
+    padding: 5px;
+}
+
 h1 {
-    color: #525454;
+    color: #08C4F2;
     font-size: 22px;
     margin: 0 0 10px 0;
     text-align: center;
+}
+h2 {
+    font-size: 16px;
+    margin: 0 0 10px 0;
 }
 
 /* TOP LEVEL LAYOUT */
@@ -38,13 +47,13 @@ h1 {
 aside {
     position:absolute;
     top: 0;
-    left: -240px;
+    left: -260px;
     bottom: 0;
     z-index: 1;
-    width: 240px;
-
+    width: 260px;
     transition: left 0.5s;
     will-change: left;
+    background: lightgray;
 }
 
 .aside-opener {
@@ -52,7 +61,12 @@ aside {
     top: 10px;
     left: 4px;
     z-index: 1;
-    width: 200px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    background: lightgray;
+    border: 1px solid #08C4F2;
 
     cursor: pointer;
     transition: left 0.5s;
@@ -61,10 +75,11 @@ aside {
 
 .aside-opened aside {
     left: 0;
+    box-shadow: 3px 0 10px 0 rgba(0,0,0,0.5);
 }
 
 .aside-opened .aside-opener {
-    left: 243px;
+    left: 263px;
 }
 
 /* LAYOUT OF SIDE BAR */
@@ -75,31 +90,22 @@ aside {
     top: 0;
     left: 0;
     right: 0;
-    height: 170px;
-
-    background: #fff;
-    line-height: 35px;
-    padding: 10px 10px 30px 10px;
+    height: 310px;
+    padding: 10px 10px 0 10px;
     text-align: left;
+    line-height: 40px
 }
 
 .list-box {
-    position:absolute;
-    top: 170px;
+    position: absolute;
+    top: 310px;
     left: 0;
     right: 0;
     bottom: 0;
-
-    background: #fff;
-    line-height: 35px;
-    padding: 10px 10px 30px 10px;
+    padding: 0 10px;
     text-align: left;
     overflow-y: scroll;
 }
-
-#search-within-time-text {
-  width: 84%;
-}
-.text {
-  font-size: 12px;
+.list-item {
+    padding: 10px 0;
 }

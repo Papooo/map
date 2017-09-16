@@ -1,24 +1,40 @@
-Funny game for 2 - Kiss Princess
-===============================
+Wheelchair life - map
+=====================
 
-This is 2 player hotseat game for desktop. Game is funny and shows who is Admirer and who is Princess in your relationship :-).
+This project shows proven wheelchair-friendly locations. It is created as part of Udacity learning course to practice with Google Maps and Knockout.js.
 
-# Try it
+## Model, View and Octopus ##
 
-You can play it on [frontend.fun](http://frontend.fun/)
+Application model is in `js/model.js`. It is accessible via global variable `model`.
 
-# Rules
+View is in `index.html`. Data display logic and event binding is done with the help of knockout.js.
 
-After game starts Player 1 is given Admirer role (without crown) and tries to kiss Princess (Player 2), Player 2 is Princess and runs from Admirer.
+Octopus part is in:
 
-After 30s roles are changed and Player 1 is Princess and Player 2 is Admirer.
+* `js/mvvm.js`, follows knockout's ViewModel pattern.
+* `js/map.js`, utilizes Google Maps API.
 
-Get points by kissing Princess. Longer kiss, more points! :-)
+## Async ##
 
-Watch out for bugs, -10 points if beaten.
+Model is partly prepopulated with data and part of the data is loaded asyncronously, from Wikipedia and from Google Places. There are several functions which do async API calls, all of them follow the same pattern:
 
-Need 50 points to win.
+    function some_async_call(location, callback) {
+        // do call API and get result
 
-# Usage #
+        // if API call is successful
+            callback(result);
 
-Simply upload to the server or locally and play with your love or friend or enemy or stranger or ...
+        // else, in case of any network or API error
+            callback(null);
+    }
+
+So every callback checks for possible null value.
+
+## Performance ##
+
+Aside show-hide uses CSS transition. `will-change` optimization is used:
+
+    aside {
+        /* ... */
+        will-change: left;
+    }

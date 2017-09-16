@@ -32,7 +32,7 @@ makeMarkerIcon	.\index2.html	/^      function makeMarkerIcon(markerColor) {$/;"	
 makeMarkerIcon	.\js\map.js	/^    function makeMarkerIcon(markerColor) {$/;"	f
 map	.\js\map.js	/^var map;$/;"	v
 markers	.\js\map.js	/^var markers = [];$/;"	v
-myMarker	.\js\map.js	/^    var myMarker = makeMarkerIcon('c0c0c0');$/;"	v
+myMarker	.\js\map.js	/^    var myMarker = makeMarkerIcon('08C4F2');$/;"	v
 populateInfoWindow	.\index2.html	/^      function populateInfoWindow(marker, infowindow) {$/;"	f
 populateInfoWindow	.\js\map.js	/^function populateInfoWindow(marker, infowindow) {$/;"	f
 searchBoxPlaces	.\index2.html	/^      function searchBoxPlaces(searchBox) {$/;"	f
@@ -43,10 +43,7 @@ showListings	.\index2.html	/^      function showListings() {$/;"	f
 showListings	.\js\map.js	/^function showListings() {$/;"	f
 textSearchPlaces	.\index2.html	/^      function textSearchPlaces() {$/;"	f
 toggleDrawing	.\index2.html	/^      function toggleDrawing(drawingManager) {$/;"	f
-utils.get	.\js\model.js	/^    get: function (url, callback) {$/;"	m
-utils.getp	.\js\model.js	/^    getp: function (url, callback) {$/;"	m
-voMarker	.\js\map.js	/^    var voMarker = makeMarkerIcon('587469');$/;"	v
+utils.getp	.\js\model.js	/^    getp: function(url, callback) {$/;"	m
+voMarker	.\js\map.js	/^    var voMarker = makeMarkerIcon('9BF5ED');$/;"	v
 window.jsonp_callback	.\js\model.js	/^        window.jsonp_callback = function(response) {$/;"	f
-xhr.onerror	.\js\model.js	/^        xhr.onerror = function() {$/;"	f
-xhr.onload	.\js\model.js	/^        xhr.onload = function() {$/;"	f
 zoomToArea	.\index2.html	/^      function zoomToArea() {$/;"	f

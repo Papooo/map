@@ -15,9 +15,8 @@
         <aside id="list">
             <div class="options-box">
                 <h1>Friendly Locations</h1>
-                <p data-bind="if: filter.isApplied"><mark data-bind="text: filter.durationLabel"></mark> <mark data-bind="text: filter.modeLabel"></mark> from <mark  data-bind="text: filter.address"></mark> <input type="button" value="Clear filter" data-bind="click: clearFilter"></p>
                 <div>
-                  <span class="text"> Within </span>
+                  <!-- <span class="text"> Within </span> -->
                   <select id="max-duration" data-bind="value: filter.duration">
                     <option value="10">10 min</option>
                     <option value="15">15 min</option>
@@ -35,6 +34,9 @@
                   <input id="search-within-time" type="button" value="Go" data-bind="click: applyFilter">
                 </div>
                 <hr>
+                <p data-bind="if: filter.isApplied"><mark data-bind="text: filter.durationLabel"></mark> <mark data-bind="text: filter.modeLabel"></mark> from <mark  data-bind="text: filter.address"></mark> <input type="button" value="Clear filter" data-bind="click: clearFilter"></p>
+                <p data-bind="ifnot: filter.isApplied">No filter applied.<input disabled type="button" value="Clear filter" data-bind="click: clearFilter"></p>
+                <hr>
             </div>
             <div class="list-box" data-bind="foreach: locations">
                 <article  class="list-item" data-bind="click: $parent.enableDetails, if: visible">
@@ -50,9 +52,13 @@
                         <p>No information is available online</p>
                     </div>
                 </article>
+                <hr>
             </div>
         </aside>
-        <div class="aside-opener" data-bind="click: toggleAside">Filter and Listing</div>
+        <div class="aside-opener" data-bind="click: toggleAside">
+            <span data-bind="if: asideOpened">&lt;</span>
+            <span data-bind="ifnot: asideOpened">&gt;</span>
+        </div>
         <script src="js/knockout-3.4.2.js"></script>
         <script src="js/model.js"></script>
         <script src="js/map.js"></script>

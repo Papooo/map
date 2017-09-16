@@ -1,6 +1,18 @@
 function Model() {
-    this.data = [
-        {
+    // Initial raw data. Properties:
+    //      location (required) excerpt from Google maps URL containing name
+    //          and coords
+    //      placeid (required) place ID, should be acquired on Google site
+    //      type (required) One of the following:
+    //          'Place' - info is shown from Google Plcaes service
+    //          'Wiki' - info is shown from Wikipedia searching by title
+    //              property
+    //          'Description' - info is shown from description property
+    //      title (optional) - manually assigned location title. If not assigned,
+    //          it is taken from location property
+    //      description (optional) - manually assigned description of the location.
+    //          Displayed if type == 'Description'
+    this.data = [{
             location: "Saint+Catherine's+Church/@54.6823779,25.2803127",
             placeid: "ChIJ78JB7BOU3UYRpNy8Yzf8oEw",
             type: 'Place'
@@ -29,41 +41,48 @@ function Model() {
         }
     ];
 
+    // list item data prepared for display
     this.locations = this.data.map(function(item) {
         return new Location(item);
     });
 
+    // loads location content as specified in its type property. Once content is
+    // loaded, callback is called with loaded content as parameter. If content
+    // can't be loaded, callback is called with null as parameter.
     this.getContent = function(location, callback) {
         if (location.type()) {
             this['get' + location.type() + 'Content'](location, callback);
-        }
-        else {
+        } else {
             callback(null);
         }
     };
 
+    // loads location content from wikipedia, calls callback with loaded
+    // content in first parameter.
     this.getWikiContent = function(location, callback) {
         utils.getp('//en.wikipedia.org/w/api.php?action=opensearch&search=' +
-            encodeURIComponent(location.title()), function(response)
-        {
-            if (!response) {
-                callback(null);
-            }
-            callback('<p>' +
-                response[2].join('<br><br>') +
-                '<br><br>' +
-                response[3].map(function(link) {
-                    return '<a href="' + link + '" target="_blank">' + link + '</a>';
-                }).join('<br>') +
-                '</p>'
-            );
-        });
+            encodeURIComponent(location.title()),
+            function(response) {
+                if (!response) {
+                    callback(null);
+                }
+                callback('<p>' +
+                    response[2].join('<br><br>') +
+                    '<br><br>' +
+                    response[3].map(function(link) {
+                        return '<a href="' + link + '" target="_blank">' + link + '</a>';
+                    }).join('<br>') +
+                    '</p>'
+                );
+            });
     };
 
+    // loads content from location's description property
     this.getDescriptionContent = function(location, callback) {
         callback('<p>' + location.description() + '</p>');
     };
 
+    // loads content from Google Plcaes
     this.getPlaceContent = function(location, callback) {
         location.getPlaceContent(function(content) {
             if (content) {
@@ -78,6 +97,8 @@ function Model() {
     };
 }
 
+// class for location objects. Constructor takes rad data item and prepares it
+// for display
 function Location(item) {
     var match = item.location.match(/(.*)\/\@(.*),(.*)/);
     this.title = ko.observable(item.title || match[1].replace(/\+/g, ' '));
@@ -93,17 +114,22 @@ function Location(item) {
     this.address = ko.observable(null);
     this.loaded = ko.observable(false);
     this.callbacks = [];
+
+    // once location is created, its additional information is loaded from
+    // Google Places
     this.getPlaceContent(function(content) {
-        console.log(content);
         this.url(content.website);
         this.address(content.formatted_address);
     }.bind(this));
 }
 
+// actual async request to Google Places. Once response is received, all
+// waiting this.callbacks are called with content as parameter
 Location.prototype.loadContent = function() {
-
     var service = new google.maps.places.PlacesService(map);
-    service.getDetails({'placeId': this.placeid()}, function(results, status) {
+    service.getDetails({
+        'placeId': this.placeid()
+    }, function(results, status) {
         if (status === 'OK') {
             this.placeContent = results;
         }
@@ -117,6 +143,8 @@ Location.prototype.loadContent = function() {
     }.bind(this));
 };
 
+// requests location content from Google Places. If already loaded just gives
+// what is already loaded otherwise adds callback to list of this.callbacks
 Location.prototype.getPlaceContent = function(callback) {
     if (this.loaded()) {
         callback(this.placeContent);
@@ -127,38 +155,8 @@ Location.prototype.getPlaceContent = function(callback) {
 
 // adapted from stack overflow
 var utils = {
-    get: function (url, callback) {
-        var xhr = new XMLHttpRequest();
-        if ("withCredentials" in xhr) {
-            // Check if the XMLHttpRequest object has a "withCredentials" property.
-            // "withCredentials" only exists on XMLHTTPRequest2 objects.
-            xhr.open('GET', url, true);
-        } else if (typeof XDomainRequest != "undefined") {
-            // Otherwise, check if XDomainRequest.
-            // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
-            xhr = new XDomainRequest();
-            xhr.open('GET', url);
-        } else {
-            // Otherwise, CORS is not supported by the browser.
-            callback(null);
-        }
-
-        xhr.onload = function() {
-            if (xhr.status >= 200 && xhr.status < 400) {
-                callback(xhr.responseText);
-            } else {
-                callback(null);
-            }
-        };
-
-        xhr.onerror = function() {
-            callback(null);
-        };
-
-        xhr.send();
-    },
-
-    getp: function (url, callback) {
+    // analog of jQuery.get('jsonp')
+    getp: function(url, callback) {
         var timer = setTimeout(function() {
             callback(null);
             delete window.jsonp_callback;
@@ -173,4 +171,6 @@ var utils = {
         document.head.appendChild(script);
     }
 };
+
+// global model object
 var model = new Model();
