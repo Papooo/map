@@ -3,6 +3,15 @@ Wheelchair life - map
 
 This project shows proven wheelchair-friendly locations. It is created as part of Udacity learning course to practice with Google Maps and Knockout.js.
 
+## Installation ##
+
+Clone this project into subdirectory of local web server:
+
+    cd [web server document root directory]
+    git clone git@github.com:Papooo/map.git
+
+Project should be accessible by URL [http://localhost/map](http://localhost/map).
+
 ## Model, View and Octopus ##
 
 Application model is in `js/model.js`. It is accessible via global variable `model`.
