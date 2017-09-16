@@ -1,6 +1,6 @@
 var ViewModel = function() {
     // true is aside is opened
-    this.asideOpened = ko.observable(false);
+    this.asideOpened = ko.observable(true);
 
     this.toggleAside = function() {
         this.asideOpened(!this.asideOpened());

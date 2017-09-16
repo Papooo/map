@@ -35,7 +35,7 @@
                 </div>
                 <hr>
                 <p data-bind="if: filter.isApplied"><mark data-bind="text: filter.durationLabel"></mark> <mark data-bind="text: filter.modeLabel"></mark> from <mark  data-bind="text: filter.address"></mark> <input type="button" value="Clear filter" data-bind="click: clearFilter"></p>
-                <p data-bind="ifnot: filter.isApplied">No filter applied.<input disabled type="button" value="Clear filter" data-bind="click: clearFilter"></p>
+                <p class="no-filter" data-bind="ifnot: filter.isApplied">No filter applied.<input disabled type="button" value="Clear filter" data-bind="click: clearFilter"></p>
                 <hr>
             </div>
             <div class="list-box" data-bind="foreach: locations">
@@ -52,7 +52,6 @@
                         <p>No information is available online</p>
                     </div>
                 </article>
-                <hr>
             </div>
         </aside>
         <div class="aside-opener" data-bind="click: toggleAside">

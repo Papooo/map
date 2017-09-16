@@ -61,12 +61,13 @@ aside {
     top: 10px;
     left: 4px;
     z-index: 1;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     text-align: center;
     vertical-align: middle;
     background: lightgray;
     border: 1px solid #08C4F2;
+    font-size: 32px;
 
     cursor: pointer;
     transition: left 0.5s;
@@ -96,6 +97,10 @@ aside {
     line-height: 40px
 }
 
+.options-box .no-filter {
+    color: graytext;
+}
+
 .list-box {
     position: absolute;
     top: 310px;
@@ -108,4 +113,8 @@ aside {
 }
 .list-item {
     padding: 10px 0;
+    cursor: pointer;
+}
+.list-item:hover h2 {
+    color: #08C4F2;
 }
