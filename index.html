@@ -10,59 +10,56 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
+
     <body data-bind="css: { 'aside-opened': asideOpened }">
-        <div id="map"></div>
+        <main id="map"></main>
+
         <aside id="list">
             <div class="options-box">
                 <h1>Friendly Locations</h1>
+
                 <div>
-                  <!-- <span class="text"> Within </span> -->
-                  <select id="max-duration" data-bind="value: filter.duration">
-                    <option value="10">10 min</option>
-                    <option value="15">15 min</option>
-                    <option value="30">30 min</option>
-                    <option value="60">1 hour</option>
-                  </select>
-                  <select id="mode" data-bind="value: filter.mode">
-                    <option value="DRIVING">drive</option>
-                    <option value="WALKING">walk</option>
-                    <option value="BICYCLING">bike</option>
-                    <option value="TRANSIT">transit ride</option>
-                  </select>
-                  <span class="text">of</span>
-                  <input id="search-within-time-text" type="text" placeholder="Ex: Google Office NYC or 75 9th Ave, New York, NY"  data-bind="value: filter.address">
-                  <input id="search-within-time" type="button" value="Go" data-bind="click: applyFilter">
+                    <label for="location-type">Location type:</label>
+                    <select id="location-type" data-bind="value: locationType, event: {change: applyFilter}, foreach: locationTypes">
+                        <option data-bind="attr: {value: value}, text: title"></option>
+                    </select>
                 </div>
-                <hr>
-                <p data-bind="if: filter.isApplied"><mark data-bind="text: filter.durationLabel"></mark> <mark data-bind="text: filter.modeLabel"></mark> from <mark  data-bind="text: filter.address"></mark> <input type="button" value="Clear filter" data-bind="click: clearFilter"></p>
-                <p class="no-filter" data-bind="ifnot: filter.isApplied">No filter applied.<input disabled type="button" value="Clear filter" data-bind="click: clearFilter"></p>
                 <hr>
             </div>
             <div class="list-box" data-bind="foreach: locations">
-                <article  class="list-item" data-bind="click: $parent.enableDetails, if: visible">
+                <article  class="list-item" data-bind="click: $parent.enableDetails, style: { display: visible() ? 'block' : 'none'}">
                     <h2 data-bind="text: title"></h2>
+
                     <div data-bind="if: !loaded()">
                         <p>Checking information online ...</p>
                     </div>
+
                     <div data-bind="if: loaded() == 'OK'">
                         <p data-bind="text: address"></p>
                         <a data-bind="attr: {href: url}" target="_blank">More information</a>
                     </div>
+                    
                     <div data-bind="if: loaded() &&  loaded() != 'OK'">
                         <p>No information is available online</p>
                     </div>
                 </article>
             </div>
         </aside>
+
         <div class="aside-opener" data-bind="click: toggleAside">
             <span data-bind="if: asideOpened">&lt;</span>
             <span data-bind="ifnot: asideOpened">&gt;</span>
         </div>
+
         <script src="js/knockout-3.4.2.js"></script>
+        <script src="data/locations.js"></script>
+        <script src="data/locationTypes.js"></script>
+        <script src="data/mapStyles.js"></script>
         <script src="js/model.js"></script>
         <script src="js/map.js"></script>
         <script src="js/mvvm.js"></script>
+
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAi-ZIKWRA1xBrdtjWepic1KSQhntDTRhM&callback=initMap&libraries=geometry,drawing,places"
-        async defer></script>
+        async defer onerror="mapError()"></script>
     </body>
 </html>

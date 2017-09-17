@@ -5,12 +5,40 @@ This project shows proven wheelchair-friendly locations. It is created as part o
 
 ## Installation ##
 
-Clone this project into subdirectory of local web server:
+1. Clone this project into subdirectory of local web server:
 
     cd [web server document root directory]
     git clone git@github.com:Papooo/map.git
 
-Project should be accessible by URL [http://localhost/map/index.html](http://localhost/map/index.html).
+2. Open app page [http://localhost/map/index.html](http://localhost/map/index.html).
+
+## 3rd Party API Usage ##
+
+This project uses public Wikipedia API. In array of locations (see js/model.js for detailed documentation on data structure) there is one location configured to use data from Wikipedia:
+
+    this.data = [
+        // ...
+        {
+            location: "Le+Passage+du+Gois/@46.9467526,-2.3584943",
+            placeid: "ChIJccqJWcIaBUgRaG1HIH-5YFU",
+            title: "Passage du Gois",
+            type: 'Wiki'
+        }
+    ];
+
+When map infowindow is shown, marker's model as asked for infowindow content by calling `model.getContent()` method.
+
+As type of this location is 'Wiki', `model.getContent()` actually calls `model.getWikiContent()`:
+
+    this.getContent = function(location, callback) {
+        if (location.type()) {
+            this['get' + location.type() + 'Content'](location, callback);
+        } else {
+            callback(null);
+        }
+    };
+
+And `model.getWikiContent()` performs AJAX call to Wikipedia API.
 
 ## Model, View and Octopus ##
 

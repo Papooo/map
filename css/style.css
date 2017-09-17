@@ -91,7 +91,7 @@ aside {
     top: 0;
     left: 0;
     right: 0;
-    height: 310px;
+    height: 155px;
     padding: 10px 10px 0 10px;
     text-align: left;
     line-height: 40px
@@ -103,7 +103,7 @@ aside {
 
 .list-box {
     position: absolute;
-    top: 310px;
+    top: 155px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -117,4 +117,8 @@ aside {
 }
 .list-item:hover h2 {
     color: #08C4F2;
+}
+
+.error-msg {
+    text-align: center;
 }

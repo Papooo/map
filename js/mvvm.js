@@ -9,15 +9,8 @@ var ViewModel = function() {
     // data for list items
     this.locations = model.locations;
 
-    // data for filter form
-    this.filter = {
-        duration: ko.observable('15'),
-        durationLabel: ko.observable('15 min'),
-        mode: ko.observable('DRIVING'),
-        modeLabel: ko.observable('drive'),
-        address: ko.observable('Savanoriu 178'),
-        isApplied: ko.observable(false)
-    };
+    this.locationTypes = locationTypes;
+    this.locationType = 'none';
 
     // opens infowindow on map after list item is clicked
     this.enableDetails = function(data, event) {
@@ -31,19 +24,11 @@ var ViewModel = function() {
 
     // handles apply filter click and shows only matching locations
     this.applyFilter = function() {
-        this.filter.durationLabel(document.querySelector('#max-duration option[value="' +
-            this.filter.duration() + '"]').textContent);
-        this.filter.modeLabel(document.querySelector('#mode option[value="' +
-            this.filter.mode() + '"]').textContent);
-        this.filter.isApplied(true);
+        this.locations.forEach(function(location) {
+            location.visible(this.locationType == 'none' || location.purpose() == this.locationType);
+        }.bind(this));
 
-        searchWithinTime(this.filter.duration(), this.filter.mode(), this.filter.address());
-    };
-
-    // shows all locations again
-    this.clearFilter = function() {
-        this.filter.isApplied(false);
-        showListings();
+        updateMarkers();
     };
 };
 

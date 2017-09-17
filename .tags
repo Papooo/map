@@ -7,31 +7,27 @@
 Location	.\js\model.js	/^function Location(item) {$/;"	c
 Location.getPlaceContent	.\js\model.js	/^Location.prototype.getPlaceContent = function(callback) {$/;"	m
 Location.loadContent	.\js\model.js	/^Location.prototype.loadContent = function() {$/;"	m
+Location.notify	.\js\model.js	/^Location.prototype.notify = function() {$/;"	m
 Model	.\js\model.js	/^function Model() {$/;"	c
+Model.getContent	.\js\model.js	/^    this.getContent = function(location, callback) {$/;"	m
+Model.getDescriptionContent	.\js\model.js	/^    this.getDescriptionContent = function(location, callback) {$/;"	m
+Model.getPlaceContent	.\js\model.js	/^    this.getPlaceContent = function(location, callback) {$/;"	m
+Model.getWikiContent	.\js\model.js	/^    this.getWikiContent = function(location, callback) {$/;"	m
 ViewModel	.\js\mvvm.js	/^var ViewModel = function() {$/;"	c
 ViewModel.applyFilter	.\js\mvvm.js	/^    this.applyFilter = function() {$/;"	m
-ViewModel.clearFilter	.\js\mvvm.js	/^    this.clearFilter = function() {$/;"	m
 ViewModel.enableDetails	.\js\mvvm.js	/^    this.enableDetails = function(data, event) {$/;"	m
-ViewModel.filter.duration	.\js\mvvm.js	/^        duration: ko.observable('15'),$/;"	p
 ViewModel.toggleAside	.\js\mvvm.js	/^    this.toggleAside = function() {$/;"	m
-displayMarkersWithinTime	.\js\map.js	/^function displayMarkersWithinTime(response, maxDuration) {$/;"	f
-getContent	.\js\model.js	/^    this.getContent = function(location, callback) {$/;"	f
-getDescriptionContent	.\js\model.js	/^    this.getDescriptionContent = function(location, callback) {$/;"	f
-getPlaceContent	.\js\model.js	/^    this.getPlaceContent = function(location, callback) {$/;"	f
-getWikiContent	.\js\model.js	/^    this.getWikiContent = function(location, callback) {$/;"	f
-hideMarkers	.\js\map.js	/^function hideMarkers(markers) {$/;"	f
+fitMarkersIntoMap	.\js\map.js	/^function fitMarkersIntoMap() {$/;"	f
 initMap	.\js\map.js	/^function initMap() {$/;"	f
+initMap.makeMarkerIcon	.\js\map.js	/^    function makeMarkerIcon(markerColor) {$/;"	f
+initMap.markerClick	.\js\map.js	/^    function markerClick() {$/;"	f
+initMap.markerMouseOut	.\js\map.js	/^    function markerMouseOut() {$/;"	c
+initMap.markerMouseOver	.\js\map.js	/^    function markerMouseOver() {$/;"	c
 largeInfoWindow	.\js\map.js	/^var largeInfoWindow;$/;"	v
-makeMarkerIcon	.\js\map.js	/^    function makeMarkerIcon(markerColor) {$/;"	f
 map	.\js\map.js	/^var map;$/;"	v
-markerClick	.\js\map.js	/^    function markerClick() {$/;"	f
-markerMouseOut	.\js\map.js	/^    function markerMouseOut() {$/;"	c
-markerMouseOver	.\js\map.js	/^    function markerMouseOver() {$/;"	c
+mapError	.\js\map.js	/^function mapError() {$/;"	f
 markers	.\js\map.js	/^var markers = [];$/;"	v
-myMarker	.\js\map.js	/^    var myMarker = makeMarkerIcon('08C4F2');$/;"	v
 populateInfoWindow	.\js\map.js	/^function populateInfoWindow(marker, infowindow) {$/;"	f
-searchWithinTime	.\js\map.js	/^function searchWithinTime(maxDuration, mode, address) {$/;"	f
-showListings	.\js\map.js	/^function showListings() {$/;"	f
+updateMarkers	.\js\map.js	/^function updateMarkers() {$/;"	f
 utils.getp	.\js\model.js	/^    getp: function(url, callback) {$/;"	m
-voMarker	.\js\map.js	/^    var voMarker = makeMarkerIcon('9BF5ED');$/;"	v
 window.jsonp_callback	.\js\model.js	/^        window.jsonp_callback = function(response) {$/;"	f
