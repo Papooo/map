@@ -24,6 +24,9 @@ initMap	.\js\map.js	/^function initMap() {$/;"	f
 largeInfoWindow	.\js\map.js	/^var largeInfoWindow;$/;"	v
 makeMarkerIcon	.\js\map.js	/^    function makeMarkerIcon(markerColor) {$/;"	f
 map	.\js\map.js	/^var map;$/;"	v
+markerClick	.\js\map.js	/^    function markerClick() {$/;"	f
+markerMouseOut	.\js\map.js	/^    function markerMouseOut() {$/;"	c
+markerMouseOver	.\js\map.js	/^    function markerMouseOver() {$/;"	c
 markers	.\js\map.js	/^var markers = [];$/;"	v
 myMarker	.\js\map.js	/^    var myMarker = makeMarkerIcon('08C4F2');$/;"	v
 populateInfoWindow	.\js\map.js	/^function populateInfoWindow(marker, infowindow) {$/;"	f

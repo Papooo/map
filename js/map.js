@@ -191,7 +191,7 @@ function initMap() {
     });
 
     // This autocomplete is for use in the search within time entry box.
-    var timeAutocomplete = new google.maps.places.Autocomplete(
+    var autoComplete = new google.maps.places.Autocomplete(
         document.getElementById('search-within-time-text'));
 
     for (var i = 0; i < model.locations.length; i++) {
@@ -208,21 +208,25 @@ function initMap() {
 
         markers.push(marker);
 
-        marker.addListener('click', function() {
-            populateInfoWindow(this, largeInfoWindow);
-        });
-
-        marker.addListener('mouseover', function() {
-            this.setIcon(voMarker);
-        });
-
-        marker.addListener('mouseout', function() {
-            this.setIcon(myMarker);
-        });
+        marker.addListener('click', markerClick);
+        marker.addListener('mouseover', markerMouseOver);
+        marker.addListener('mouseout', markerMouseOut);
     }
 
     // initially all markers are shown
     showListings();
+
+    function markerClick() {
+        populateInfoWindow(this, largeInfoWindow);
+    }
+
+    function markerMouseOver() {
+        this.setIcon(voMarker);
+    }
+
+    function markerMouseOut() {
+        this.setIcon(myMarker);
+    }
 
     // This function takes in a COLOR, and then creates a new marker
     // icon of that color. The icon will be 21 px wide by 34 high, have an origin
@@ -250,7 +254,7 @@ function initMap() {
 function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
-        if (infowindow.marker != null) {
+        if (infowindow.marker) {
             // stop bouncing marker which perviously displayed its info
             infowindow.marker.setAnimation(null);
         }
@@ -309,7 +313,7 @@ function searchWithinTime(maxDuration, mode, address) {
     var distanceMatrixService = new google.maps.DistanceMatrixService();
 
     // Check to make sure the place entered isn't blank.
-    if (address == '') {
+    if (address === '') {
         window.alert('You must enter an address.');
     } else {
         hideMarkers(markers);
@@ -342,7 +346,6 @@ function searchWithinTime(maxDuration, mode, address) {
 // if the distance is LESS than the value in the picker, show it on the map.
 function displayMarkersWithinTime(response, maxDuration) {
     var origins = response.originAddresses;
-    var destinations = response.destinationAddresses;
     // Parse through the results, and get the distance and duration of each.
     // Because there might be  multiple origins and destinations we have a nested loop
     // Then, make sure at least 1 result was found.
@@ -352,14 +355,9 @@ function displayMarkersWithinTime(response, maxDuration) {
         for (var j = 0; j < results.length; j++) {
             var element = results[j];
             if (element.status === "OK") {
-                // The distance is returned in feet, but the TEXT is in miles. If we wanted to switch
-                // the function to show markers within a user-entered DISTANCE, we would need the
-                // value for distance, but for now we only need the text.
-                var distanceText = element.distance.text;
                 // Duration value is given in seconds so we make it MINUTES. We need both the value
                 // and the text.
                 var duration = element.duration.value / 60;
-                var durationText = element.duration.text;
                 if (duration <= maxDuration) {
                     //the origin [i] should = the markers[i]
                     markers[i].setMap(map);

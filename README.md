@@ -10,7 +10,7 @@ Clone this project into subdirectory of local web server:
     cd [web server document root directory]
     git clone git@github.com:Papooo/map.git
 
-Project should be accessible by URL [http://localhost/map](http://localhost/map).
+Project should be accessible by URL [http://localhost/map/index.html](http://localhost/map/index.html).
 
 ## Model, View and Octopus ##
 
