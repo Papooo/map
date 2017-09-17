@@ -7,8 +7,8 @@ This project shows proven wheelchair-friendly locations. It is created as part o
 
 1. Clone this project into subdirectory of local web server:
 
-    cd [web server document root directory]
-    git clone git@github.com:Papooo/map.git
+        cd [web server document root directory]
+        git clone git@github.com:Papooo/map.git
 
 2. Open app page [http://localhost/map/index.html](http://localhost/map/index.html).
 
