@@ -35,10 +35,9 @@
                     </div>
 
                     <div data-bind="if: loaded() == 'OK'">
-                        <p data-bind="text: address"></p>
-                        <a data-bind="attr: {href: url}" target="_blank">More information</a>
+                        <p data-bind="html: placeContent"></p>
                     </div>
-                    
+
                     <div data-bind="if: loaded() &&  loaded() != 'OK'">
                         <p>No information is available online</p>
                     </div>
@@ -52,6 +51,7 @@
         </div>
 
         <script src="js/knockout-3.4.2.js"></script>
+        <script src="js/jquery-3.2.1.min.js"></script>
         <script src="data/locations.js"></script>
         <script src="data/locationTypes.js"></script>
         <script src="data/mapStyles.js"></script>
