@@ -5,28 +5,25 @@ This project shows proven wheelchair-friendly locations. It is created as part o
 
 ## Installing and Running Application ##
 
-1. Set up local Web server if you have not already done so. There is wide selection of web server software available and it may be worthwhile to have a look and pick the one which is right for you. Then follow installation instruction of chosen Web server software. One of the simplest ways to get local Web server up and running is to follow section "Running a simple local HTTP server" in the following guide: [https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server).
-2. Clone this project into subdirectory of your local web server. First, navigate to you local web server's document root directory in command line shell:
+1. Install Python.
+2. Pick a directory which would be web server document root directory and navigate to it in command line shell:
 
         cd [web server document root directory]
 
-    Then clone the project with `git clone` command:
+3. Start local Web server:
 
-        git clone git@github.com:Papooo/map.git [your_directory_name]
+        # On Mac and Linux
+        python -m SimpleHTTPServer
+        # On Windows
+        python -m http.server
 
-3. Open app page in Web browser by typing in `http://[your_server_domain]/[your_directory_name]/index.html`.
+    Now local web server should be accessible via [http://localhost:8080/](http://localhost:8080/).
 
-For example, I work on Windows, my server domain is `localhost` and all Web files are hosted from `d:\projects` directory. I want to clone this project into `udacity/map` directory, then firstly I navigate to the place where I will be cloning this project by typing in command line shell:
+4. Clone this project into subdirectory of your local web server document root directory:
 
-    cd d:\projects\udacity
+        git clone git@github.com:Papooo/map.git
 
-Then I would clone it by typing in command line shell:
-
-    git clone git@github.com:Papooo/map.git map
-
-Then open Web browser and type in this link: [http://localhost/udacity/map/index.html](http://localhost/udacity/map/index.html).
-
-And now you should see map application running in your browser.
+5. Open app page in Web browser by typing in [http://localhost:8080/map/index.html](http://localhost:8080/map/index.html).
 
 ## 3rd Party API Usage ##
 
